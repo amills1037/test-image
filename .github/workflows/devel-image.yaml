@@ -44,6 +44,6 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest@v4
         with:
-          subject-name: ghcr.io/blockbreak-devel
+          subject-name: ghcr.io/${{ github.actor }}/blockbreak-devel
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true

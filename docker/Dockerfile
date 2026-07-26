@@ -1,4 +1,4 @@
-from debian:trixie
+FROM debian:trixie
 
 ## Update packages to install
 RUN apt update

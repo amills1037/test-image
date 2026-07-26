@@ -6,9 +6,9 @@ on:
 jobs:
   build-devel-image:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./docker
+    # defaults:
+    #   run:
+    #     working-directory: ./docker
     permissions:
       contents: read
       packages: write
@@ -36,7 +36,7 @@ jobs:
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
-          context: .
+          context: ./docker
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

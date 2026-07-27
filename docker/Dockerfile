@@ -7,8 +7,9 @@ RUN apt-get install -y openssh-server
 
 RUN apt-get install -y sudo
 
-RUN useradd -m -s /bin/bash dev
-## we are going to update
+## we don't create a home directory, k8s init container will create the home directory
+RUN useradd -M -s /bin/bash dev
+## no home
 # RUN mkdir /home/dev/.ssh
 # RUN chmod 700 /home/dev/.ssh
 

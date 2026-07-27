@@ -1,8 +1,11 @@
 FROM debian:trixie
 
 ## Update packages to install
-RUN apt update
+RUN apt-get update
 
 ## Install ssh server first.  Fingerprint is less likely to change if ssh server is installed first.
-RUN apt install -y openssh-server
-RUN service ssh start
+RUN apt-get install -y openssh-server
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]

@@ -15,7 +15,7 @@ RUN echo "dev ALL=(ALL) NOPASSWD:ALL\n" >/etc/sudoers.d/99-dev-user
 
 ## install packages and programs need to build and run app
 ## install extra programs
-RUN apt-get install -y curl unzip git less gpg
+RUN apt-get install -y curl unzip git less gpg lsb-release
 
 ## install rust
 RUN apt-get install -y rustup pkg-config libwayland-dev libasound2-dev libudev-dev
@@ -39,9 +39,9 @@ RUN ./aws/install
 
 ## install terraform package
 RUN curl -L https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
 RUN apt-get update
-RUN apt-get install -y terraform
+RUN apt-get install terraform
 
 EXPOSE 22
 

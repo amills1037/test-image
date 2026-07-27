@@ -15,7 +15,10 @@ RUN echo "dev ALL=(ALL) NOPASSWD:ALL\n" >/etc/sudoers.d/99-dev-user
 
 ## install packages and programs need to build and run app
 ## install extra programs
-RUN apt-get install -y unzip git less gpg
+RUN apt-get install -y curl unzip git less gpg
+
+## install rust
+RUN apt-get install -y rustup pkg-config libwayland-dev libasound2-dev libudev-dev
 
 ## install node and npm
 RUN apt-get install -y nodejs npm
@@ -23,22 +26,19 @@ RUN apt-get install -y nodejs npm
 ## install maven
 RUN apt-get install -y maven
 
-## install rust
-RUN apt-get install -y rustup pkg-config libwayland-dev libasound2-dev libudev-dev
-
-## install aws cli package
-RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
-RUN unzip awscli-exe-linux-x86_64.zip
-RUN ./aws/install
-
 ## install java package
-RUN wget -O - https://apt.corretto.aws/corretto.key | gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg
+RUN curl -L https://apt.corretto.aws/corretto.key | gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/corretto-keyring.gpg] https://apt.corretto.aws stable main" | tee /etc/apt/sources.list.d/corretto.list
 RUN apt-get update
 RUN apt-get install -y java-25-amazon-corretto-jdk
 
+## install aws cli package
+RUN curl -L -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+RUN unzip awscli-exe-linux-x86_64.zip
+RUN ./aws/install
+
 ## install terraform package
-RUN wget -O - https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+RUN curl -L https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
 RUN apt update
 RUN apt install -y terraform

@@ -7,9 +7,10 @@ RUN apt-get install -y openssh-server
 
 RUN apt-get install -y sudo
 
-RUN useradd -m dev
-RUN mkdir /home/dev/.ssh
-RUN chmod 700 /home/dev/.ssh
+RUN useradd -m -s /bin/bash dev
+## we are going to update
+# RUN mkdir /home/dev/.ssh
+# RUN chmod 700 /home/dev/.ssh
 
 RUN echo "dev ALL=(ALL) NOPASSWD:ALL\n" >/etc/sudoers.d/99-dev-user
 

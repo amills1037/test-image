@@ -43,6 +43,9 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/h
 RUN apt-get update
 RUN apt-get install terraform
 
+## install database clients
+RUN apt-get install -y mariadb-client postgresql-client
+
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]

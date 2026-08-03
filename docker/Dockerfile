@@ -46,6 +46,11 @@ RUN apt-get install terraform
 ## install database clients
 RUN apt-get install -y mariadb-client postgresql-client
 
+RUN curl -fsSL https://pgp.mongodb.com/server-8.0.asc | gpg  --dearmor -o /usr/share/keyrings/mongodb-server-8.0.gpg
+RUN echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/debian trixie/mongodb-org/8.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+RUN apt-get update
+RUN apt-get install -y mongodb-mongosh
+
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]

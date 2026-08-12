@@ -19,6 +19,7 @@ RUN apt-get install -y curl unzip git less gpg lsb-release
 
 ## install rust
 RUN apt-get install -y rustup pkg-config libwayland-dev libasound2-dev libudev-dev
+RUN rustup default stable
 
 ## install node and npm
 RUN apt-get install -y nodejs npm
@@ -44,12 +45,15 @@ RUN apt-get update
 RUN apt-get install terraform
 
 ## install database clients
-RUN apt-get install -y mariadb-client postgresql-client
+RUN apt-get install -y mariadb-client postgresql-client redis-tools
 
 RUN curl -fsSL https://pgp.mongodb.com/server-8.0.asc | gpg  --dearmor -o /usr/share/keyrings/mongodb-server-8.0.gpg
 RUN echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/debian trixie/mongodb-org/8.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
 RUN apt-get update
 RUN apt-get install -y mongodb-mongosh
+
+## install tools
+RUN apt install -y vim bind9-host iproute2
 
 EXPOSE 22
 
